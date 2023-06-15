@@ -4,9 +4,7 @@ metadata:
   name: pre-sync
   namespace: default
   annotations:
-    #argocd.argoproj.io/hook: PreSync
-    #argocd.argoproj.io/hook-delete-policy: BeforeHookCreation
-    argocd.argoproj.io/sync-wave: "-10"
+    argocd.argoproj.io/hook: PreSync
     argocd.argoproj.io/hook-delete-policy: HookSucceeded
 spec:
   template:

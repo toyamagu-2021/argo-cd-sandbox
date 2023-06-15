@@ -5,3 +5,5 @@ releases:
   version: 5.6.1
   values:
   - values.yaml
+- name: applications
+  chart: ./applications

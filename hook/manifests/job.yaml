@@ -11,5 +11,6 @@ spec:
       containers:
       - name: job
         image: alpine:latest
-        command: ['"sleep 10; echo "this is a test"']
+        command: ["sh -c"]
+        args: ['"sleep 10; echo "this is a test"']
       restartPolicy: Never

@@ -13,5 +13,5 @@ spec:
       - name: job
         image: alpine:latest
         command: ["sh", "-c"]
-        args: ['"sleep 10; echo hello']
+        args: ['sleep 10; echo hello']
       restartPolicy: Never

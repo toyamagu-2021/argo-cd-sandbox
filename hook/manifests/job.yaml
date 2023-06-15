@@ -11,7 +11,7 @@ spec:
     spec:
       containers:
       - name: job
-        image: alpine:latest
+        image: alpine:3.7
         command: ["sh", "-c"]
         args: ['sleep 10; echo hello']
       restartPolicy: Never

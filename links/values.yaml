@@ -1,26 +1,12 @@
 configs:
   cm:
-    # sample project level links
-    project.links: |
-      - url: https://myaudit-system.com?project={{.project.metadata.name}}
-        title: Audit
-        description: system audit logs
-        icon.class: "fa-book"
-    # sample application level links
-    application.links: |
-      # pkg.go.dev/text/template is used for evaluating url templates
-      - url: https://mycompany.splunk.com?search={{.application.spec.destination.namespace}}&env={{.project.metadata.label.env}}
-        title: Splunk
-      # conditionally show link e.g. for specific project
-      # github.com/antonmedv/expr is used for evaluation of conditions
-      - url: https://mycompany.splunk.com?search={{.application.spec.destination.namespace}}
-        title: Splunk
-        if: application.spec.project == "default"
-      - url: https://{{.application.metadata.annotations.splunkhost}}?search={{.application.spec.destination.namespace}}
-        title: Splunk
-        if: application.metadata.annotations.splunkhost != ""
-    # sample resource level links
     resource.links: |
-      - url: https://mycompany.splunk.com?search={{.resource.metadata.name}}&env={{.project.metadata.label.env}}
-        title: Splunk
-        if: resource.kind == "Pod" || resource.kind == "Deployment"   
+      - url: https://app.datadoghq.com/logs?query=cluster_name:{{.cluster.name}}%20kube_namespace:{{.resource.metadata.namespace}}%20kube_deployment:{{.resource.metadata.name}}
+        title: Datadog Log
+        if: resource.kind == "Deployment"
+      - url: https://app.datadoghq.com/logs?query=cluster_name:{{.cluster.name}}%20kube_namespace:{{.resource.metadata.namespace}}%20pod_name:{{.resource.metadata.name}}
+        title: Datadog Log
+        if: resource.kind == "Pod"
+      - url: https://app.datadoghq.com/logs?query=cluster_name:{{.cluster.name}}%20kube_namespace:{{.resource.metadata.namespace}}%20pod_name:{{.resource.metadata.name}}-*
+        title: Datadog Log
+        if: resource.kind == "Job"

@@ -9,6 +9,6 @@ spec:
     server: https://kubernetes.default.svc
   project: default
   source:
-    path: hook/manifests
+    path: links/manifests
     repoURL: https://github.com/toyamagu-2021/argo-cd-sandbox.git
     targetRevision: feat-links

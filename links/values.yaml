@@ -1,0 +1,12 @@
+configs:
+  cm:
+    resource.links: |
+      - url: https://app.datadoghq.com/logs?query=cluster_name:{{.cluster.name}}%20kube_namespace:{{.resource.metadata.namespace}}%20kube_deployment:{{.resource.metadata.name}}
+        title: Datadog Log
+        if: resource.kind == "Deployment"
+      - url: https://app.datadoghq.com/logs?query=cluster_name:{{.cluster.name}}%20kube_namespace:{{.resource.metadata.namespace}}%20pod_name:{{.resource.metadata.name}}
+        title: Datadog Log
+        if: resource.kind == "Pod"
+      - url: https://app.datadoghq.com/logs?query=cluster_name:{{.cluster.name}}%20kube_namespace:{{.resource.metadata.namespace}}%20pod_name:{{.resource.metadata.name}}-*
+        title: Datadog Log
+        if: resource.kind == "Job"

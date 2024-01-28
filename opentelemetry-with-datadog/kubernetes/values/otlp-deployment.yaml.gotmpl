@@ -1,5 +1,7 @@
 mode: deployment
 
+fullnameOverride: "otl-controller"
+
 clusterRole:
   # To get aws-auth configmap
   rules:
@@ -95,4 +97,4 @@ config:
 
       logs:
         exporters: [datadog]
-        processors: [batch, resourcedetection]
+        processors: [batch, resourcedetection/eks]

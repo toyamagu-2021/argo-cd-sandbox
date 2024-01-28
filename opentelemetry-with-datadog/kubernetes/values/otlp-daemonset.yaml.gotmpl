@@ -1,5 +1,7 @@
 mode: "daemonset"
 
+fullnameOverride: "otl-agent"
+
 clusterRole:
   # To get aws-auth configmap
   rules:
@@ -66,6 +68,30 @@ presets:
 
 config:
   receivers:
+    # https://github.com/open-telemetry/opentelemetry-collector-contrib/blob/main/receiver/hostmetricsreceiver/README.md
+    # https://github.com/open-telemetry/opentelemetry-collector-contrib/blob/main/receiver/hostmetricsreceiver/internal/scraper/cpuscraper/metadata.yaml#L28
+    hostmetrics:
+      scrapers:
+        cpu:
+          metrics:
+            system.cpu.utilization:
+              enabled: true
+        disk:
+        filesystem:
+          metrics:
+            system.filesystem.utilization:
+              enabled: true
+        memory:
+          metrics:
+            system.memory.limit:
+              enabled: true
+            system.memory.usage:
+              enabled: true
+            system.memory.utilization:
+              enabled: true
+            system.linux.memory.available:
+              enabled: true
+
     prometheus:
       config:
         scrape_configs:

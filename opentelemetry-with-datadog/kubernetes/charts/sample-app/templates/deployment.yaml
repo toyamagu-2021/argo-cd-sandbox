@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sample
+  namespace: {{ .Release.Namespace}}
+  labels:
+    tags.datadoghq.com/env: sandbox
+    tags.datadoghq.com/service: toyamagu-2021
+    tags.datadoghq.com/version: v0.0
+spec:
+  selector:
+    matchLabels:
+      app: sample
+  template:
+    metadata:
+      labels:
+        app: sample
+        tags.datadoghq.com/env: sandbox
+        tags.datadoghq.com/service: toyamagu-2021
+        tags.datadoghq.com/version: v0.0
+    spec:
+      metadata:
+        labels:
+          app: nginx
+      volumes:
+        - hostPath:
+            path: /var/run/datadog/
+          name: apmsocketpath
+      containers:
+        - name: app
+          image: ${IMAGE_NAME}
+          env:
+            - name: DD_ENV
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.labels['tags.datadoghq.com/env']
+            - name: DD_SERVICE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.labels['tags.datadoghq.com/service']
+            - name: DD_VERSION
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.labels['tags.datadoghq.com/version']
+            - name: DD_AGENT_HOST
+              value: "otl-controller.open-telemetry.svc.cluster.local"
+            - name: DD_TRACE_AGENT_PORT
+              value: "4317"
+

@@ -1,7 +1,7 @@
 locals {
   default_tags = {
     "Owner" = var.owner
-    "eks:cluster-name" = "tomoki-yamaguchi"
+    "eks:cluster-name" = "${var.owner}"
   }
 }
 

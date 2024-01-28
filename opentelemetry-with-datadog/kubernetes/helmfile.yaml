@@ -10,13 +10,18 @@ releases:
   namespace: argo-cd
   values:
   - values/argocd-values.yaml
-- name: open-telemetry-agent
+- name: agent
   chart: open-telemetry/opentelemetry-collector
   namespace: open-telemetry
   values:
   - values/otlp-daemonset.yaml.gotmpl
-- name: open-telemetry-controller
+- name: controller
   chart: open-telemetry/opentelemetry-collector
   namespace: open-telemetry
   values:
   - values/otlp-deployment.yaml.gotmpl
+
+# 失敗
+# - name: sample-app
+#   chart: "./charts/sample-app"
+#   namespace: default

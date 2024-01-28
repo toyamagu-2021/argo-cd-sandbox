@@ -1,0 +1,126 @@
+mode: "daemonset"
+
+clusterRole:
+  # To get aws-auth configmap
+  rules:
+  - apiGroups:
+    - ''
+    resources:
+    - 'configmaps'
+    verbs:
+    - 'get'
+    - 'list'
+    - 'watch'
+
+# Handles basic configuration of components that
+# also require k8s modifications to work correctly.
+# .Values.config can be used to modify/add to a preset
+# component configuration, but CANNOT be used to remove
+# preset configuration. If you require removal of any
+# sections of a preset configuration, you cannot use
+# the preset. Instead, configure the component manually in
+# .Values.config and use the other fields supplied in the
+# values.yaml to configure k8s as necessary.
+presets:
+  # Configures the collector to collect logs.
+  # Adds the filelog receiver to the logs pipeline
+  # and adds the necessary volumes and volume mounts.
+  # Best used with mode = daemonset.
+  # See https://opentelemetry.io/docs/kubernetes/collector/components/#filelog-receiver for details on the receiver.
+  logsCollection:
+    enabled: true
+    includeCollectorLogs: true
+    # Enabling this writes checkpoints in /var/lib/otelcol/ host directory.
+    # Note this changes collector's user to root, so that it can write to host directory.
+    storeCheckpoints: false
+    # The maximum bytes size of the recombined field.
+    # Once the size exceeds the limit, all received entries of the source will be combined and flushed.
+    maxRecombineLogSize: 102400
+  # Configures the collector to collect host metrics.
+  # Adds the hostmetrics receiver to the metrics pipeline
+  # and adds the necessary volumes and volume mounts.
+  # Best used with mode = daemonset.
+  # See https://opentelemetry.io/docs/kubernetes/collector/components/#host-metrics-receiver for details on the receiver.
+  hostMetrics:
+    enabled: true
+  # Configures the Kubernetes Processor to add Kubernetes metadata.
+  # Adds the k8sattributes processor to all the pipelines
+  # and adds the necessary rules to ClusteRole.
+  # Best used with mode = daemonset.
+  # See https://opentelemetry.io/docs/kubernetes/collector/components/#kubernetes-attributes-processor for details on the receiver.
+  kubernetesAttributes:
+    enabled: true
+    # When enabled the processor will extra all labels for an associated pod and add them as resource attributes.
+    # The label's exact name will be the key.
+    extractAllPodLabels: true
+    # When enabled the processor will extra all annotations for an associated pod and add them as resource attributes.
+    # The annotation's exact name will be the key.
+    extractAllPodAnnotations: true
+  # Configures the collector to collect node, pod, and container metrics from the API server on a kubelet..
+  # Adds the kubeletstats receiver to the metrics pipeline
+  # and adds the necessary rules to ClusteRole.
+  # Best used with mode = daemonset.
+  # See https://opentelemetry.io/docs/kubernetes/collector/components/#kubeletstats-receiver for details on the receiver.
+  kubeletMetrics:
+    enabled: true
+
+config:
+  receivers:
+    prometheus:
+      config:
+        scrape_configs:
+        - job_name: 'otelcol'
+          scrape_interval: 10s
+          static_configs:
+          - targets: ['${env:MY_POD_IP}:8888']
+        - honor_labels: true
+          job_name: kubernetes-pods
+          scrape_interval: 10s
+          kubernetes_sd_configs:
+          - role: pod
+          relabel_configs:
+          - action: keep
+            regex: true
+            source_labels:
+            - __meta_kubernetes_pod_annotation_prometheus_io_scrape
+
+  processors:
+    batch:
+      send_batch_max_size: 1000
+      send_batch_size: 100
+      timeout: 10s
+
+    probabilistic_sampler:
+      sampling_percentage: 100
+
+    # https://github.com/open-telemetry/opentelemetry-collector-contrib/blob/main/processor/resourcedetectionprocessor/internal/aws/eks/metadata.yaml
+    # We need AWS EC2 tag: `aws:eks:cluster-name` or `eks:cluster-name`
+    # https://github.com/open-telemetry/opentelemetry-collector-contrib/pull/28649
+    resourcedetection/eks:
+      detectors: [env, eks]
+      timeout: 15s
+      override: false
+      eks:
+        resource_attributes:
+          cloud.platform:
+            enabled: true
+          cloud.provider:
+            enabled: true
+          k8s.cluster.name:
+            enabled: true
+
+  exporters:
+    datadog:
+      api:
+        site: datadoghq.com
+        key: {{ requiredEnv "DD_API_KEY" | quote }}
+
+  service:
+    pipelines:
+      metrics:
+        receivers: [prometheus]
+        processors: [batch, resourcedetection/eks]
+        exporters: [datadog]
+      logs:
+        processors: [batch, resourcedetection/eks]
+        exporters: [datadog]

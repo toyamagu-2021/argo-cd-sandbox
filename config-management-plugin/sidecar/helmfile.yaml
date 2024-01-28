@@ -1,0 +1,9 @@
+releases:
+- name: argocd
+  chart: argo/argo-cd
+  namespace: argocd
+  version: 5.28.0
+  values:
+  - values.yaml
+- name: sample-manifests
+  chart: "../sample-manifests"

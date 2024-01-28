@@ -1,0 +1,14 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: pre-sync-test
+  namespace: argocd
+spec:
+  destination:
+    namespace: default
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    path: hook/manifests
+    repoURL: https://github.com/toyamagu-2021/argo-cd-sandbox.git
+    targetRevision: feat-pre-sync-hook

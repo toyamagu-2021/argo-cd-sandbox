@@ -1,0 +1,17 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: pre-sync
+  namespace: default
+  annotations:
+    argocd.argoproj.io/hook: PreSync
+    argocd.argoproj.io/hook-delete-policy: BeforeHookCreation
+spec:
+  template:
+    spec:
+      containers:
+      - name: job
+        image: alpine:latest
+        command: ["sh", "-c"]
+        args: ['sleep 10; echo hello']
+      restartPolicy: Never

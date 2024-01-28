@@ -1,0 +1,7 @@
+repositories:
+ - name: argo
+   url: https://argoproj.github.io/argo-helm
+releases:
+- name: argo-workflows
+  chart: argo/argo-workflows
+  

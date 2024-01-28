@@ -1,0 +1,19 @@
+repositories:
+- name: argo
+  url: https://argoproj.github.io/argo-helm
+- name: open-telemetry
+  url: https://open-telemetry.github.io/opentelemetry-helm-charts
+
+releases:
+- name: argo-cd
+  chart: argo/argo-cd
+  values:
+  - values/argocd-values.yaml
+- name: open-telemetry-agent
+  chart: open-telemetry/opentelemetry-collector
+  values:
+  - values/otlp-daemonset.yaml.gotmpl
+- name: open-telemetry-controller
+  chart: open-telemetry/opentelemetry-collector
+  values:
+  - values/otlp-deployment.yaml.gotmpl

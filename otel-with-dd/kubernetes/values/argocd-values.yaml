@@ -1,0 +1,29 @@
+## Argo Configs
+configs:
+  params:
+    # Open-Telemetry collector address: (e.g. "otel-collector:4317")
+    otlp.address: "open-telemetry-controller-deployment-opentelemetry-collector.default.svc.cluster.local:4317"
+    # Open-Telemetry collector insecure: (e.g. "true")
+    otlp.insecure: "true"
+    # Open-Telemetry collector headers: (e.g. "key1=value1,key2=value2")
+    otlp.headers: ""
+    server.log.level: "debug"
+
+global:
+
+  additionalLabels:
+    tags.datadoghq.com/env: sandbox
+    tags.datadoghq.com/service: argo-cd
+    tags.datadoghq.com/version: v0
+
+controller:
+  podAnnotations:
+    prometheus.io/scrape: 'true'
+
+repoServer:
+  podAnnotations:
+    prometheus.io/scrape: 'true'
+
+server:
+  podAnnotations:
+    prometheus.io/scrape: 'true'

@@ -1,0 +1,18 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: argo-workflows
+spec:
+  source:
+    repoURL: https://github.com/toyamagu-2021/argo-cd-sandbox.git
+    targetRevision: HEAD
+    path: manifest/helmfile
+    plugin:
+      name: helmfile
+      env:
+        - name: ARGS
+          value: -f helmfile.yaml
+  project: default
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: default

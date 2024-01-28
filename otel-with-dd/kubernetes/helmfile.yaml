@@ -7,13 +7,16 @@ repositories:
 releases:
 - name: argo-cd
   chart: argo/argo-cd
+  namespace: argo-cd
   values:
   - values/argocd-values.yaml
 - name: open-telemetry-agent
   chart: open-telemetry/opentelemetry-collector
+  namespace: open-telemetry
   values:
   - values/otlp-daemonset.yaml.gotmpl
 - name: open-telemetry-controller
   chart: open-telemetry/opentelemetry-collector
+  namespace: open-telemetry
   values:
   - values/otlp-deployment.yaml.gotmpl

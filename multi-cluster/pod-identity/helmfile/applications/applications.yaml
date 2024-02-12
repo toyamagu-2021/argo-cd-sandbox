@@ -1,0 +1,17 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: argo-workflows
+  namespace: argo-cd
+spec:
+  project: default
+  source:
+    repoURL: https://argoproj.github.io/argo-helm
+    chart: argo-workflows
+    targetRevision: "0.40"
+    helm:
+      releaseName: argo-workflows
+      valuesObject: {}
+  destination:
+    name: toyamagu-2021-secondary
+    namespace: argo-workflows

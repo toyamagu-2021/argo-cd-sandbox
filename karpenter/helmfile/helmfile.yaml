@@ -1,0 +1,17 @@
+repositories:
+- name: karpenter
+  url: public.ecr.aws/karpenter
+  oci: true
+
+releases:
+- name: karpenter
+  chart: karpenter/karpenter
+  createNamespace: true
+  namespace: karpenter
+  version: v0.34.0
+  values:
+  - values/karpenter.yaml
+- name: node-pool
+  chart: "./nodepool"
+  createNamespace: true
+  namespace: karpenter

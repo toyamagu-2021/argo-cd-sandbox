@@ -1,0 +1,7 @@
+releases:
+- name: argocd
+  chart: argo/argo-cd
+  namespace: argocd
+  version: 5.20.0
+  values:
+  - values.yaml

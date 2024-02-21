@@ -1,0 +1,17 @@
+configs:
+  cm:
+    accounts.app-read-only: apiKey, login
+    # disables user. User is enabled by default
+    accounts.app-read-only.enabled: "true"
+
+  secret:
+    extra:
+      # $ argocd account bcrypt --password super-secret-password
+      accounts.app-read-only.password: "$2a$10$vs2aaUxp6ZPhjjy0altAAOcbzYXJBdvIFPjoS86EJ2vMSxvZEaggS"
+
+  rbac:
+    policy.csv: |
+      g, admin, role:admin
+      g, app-read-only, role:app-read-only
+      p, role:app-read-only, applications, get, */*, allow
+      p, role:app-read-only, projects, get, *, allow

@@ -6,8 +6,8 @@ configs:
 
   secret:
     extra:
-      # $ argocd account bcrypt --password ohvaig5ohh3wahgoasi7PheGuthaePaqueechev1aiquoh2eif
-      accounts.app-read-only.password: "$2a$10$JKLNmY0ml3feNQX1gmMe1eD4HDTYyxvK.Mx3qg94BGKPsJuP8eTaC"
+      # $ argocd account bcrypt --password super-secret-password
+      accounts.app-read-only.password: "$2a$10$vs2aaUxp6ZPhjjy0altAAOcbzYXJBdvIFPjoS86EJ2vMSxvZEaggS"
 
   rbac:
     policy.csv: |

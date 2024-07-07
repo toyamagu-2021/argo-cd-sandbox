@@ -8,11 +8,11 @@ spec:
   replicas: 3
   selector:
     matchLabels:
-      app: nginx-test
+      app: nginx
   template:
     metadata:
       labels:
-        app: nginx-test
+        app: nginx
     spec:
       containers:
       - name: nginx

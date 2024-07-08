@@ -1,0 +1,4 @@
+controller:
+  enableStatefulSet: true
+  #logFormat: json
+  logLevel: debug

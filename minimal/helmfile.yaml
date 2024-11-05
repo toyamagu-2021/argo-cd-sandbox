@@ -1,0 +1,11 @@
+releases:
+- name: argocd
+  chart: argo/argo-cd
+  createNamespace: true
+  namespace: argocd
+  version: 5.6.1
+  values:
+  - values.yaml
+- name: applications
+  createNamespace: true
+  chart: ./applications

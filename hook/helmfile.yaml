@@ -2,8 +2,10 @@ releases:
 - name: argocd
   chart: argo/argo-cd
   namespace: argocd
-  version: 5.6.1
+  forceNamespace: argocd
   values:
   - values.yaml
 - name: applications
+  namespace: argocd
+  forceNamespace: argocd
   chart: ./applications

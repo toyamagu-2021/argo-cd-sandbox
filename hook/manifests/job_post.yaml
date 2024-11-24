@@ -1,7 +1,7 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: pre-sync
+  name: post-sync
   namespace: default
   annotations:
     argocd.argoproj.io/hook: PostSync

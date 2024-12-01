@@ -4,4 +4,5 @@ controller:
   logLevel: debug
 
 repoServer:
+  replicas: 3
   logLevel: debug

@@ -3,3 +3,5 @@ controller:
   #logFormat: json
   logLevel: debug
 
+repoServer:
+  logLevel: debug

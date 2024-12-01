@@ -3,6 +3,7 @@ releases:
   chart: argo/argo-cd
   namespace: argocd
   forceNamespace: argocd
+  version: 7.6.12
   values:
   - values.yaml
 - name: applications

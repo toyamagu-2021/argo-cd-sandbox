@@ -11,6 +11,7 @@ configs:
 
 
 
+
   rbac:
     policy.csv: |
       g, admin, role:admin

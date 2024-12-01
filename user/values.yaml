@@ -5,6 +5,7 @@ configs:
     accounts.app-read-only.enabled: "true"
 
 
+
   secret:
     extra:
       # $ argocd account bcrypt --password super-secret-password

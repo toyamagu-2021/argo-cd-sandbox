@@ -1,17 +1,17 @@
-apiVersion: batch/v1
-kind: Job
-metadata:
-  name: post-sync
-  namespace: default
-  annotations:
-    argocd.argoproj.io/hook: PostSync
-    #argocd.argoproj.io/hook-delete-policy: HookSucceeded
-spec:
-  template:
-    spec:
-      containers:
-      - name: job
-        image: alpine:latest
-        command: ["sh", "-c"]
-        args: ['sleep 10; echo hello']
-      restartPolicy: Never
+# apiVersion: batch/v1
+# kind: Job
+# metadata:
+#   name: post-sync
+#   namespace: default
+#   annotations:
+#     argocd.argoproj.io/hook: PostSync
+#     #argocd.argoproj.io/hook-delete-policy: HookSucceeded
+# spec:
+#   template:
+#     spec:
+#       containers:
+#       - name: job
+#         image: alpine:latest
+#         command: ["sh", "-c"]
+#         args: ['sleep 10; echo hello']
+#       restartPolicy: Never

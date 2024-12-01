@@ -6,6 +6,7 @@ configs:
 
 
 
+
   secret:
     extra:
       # $ argocd account bcrypt --password super-secret-password
